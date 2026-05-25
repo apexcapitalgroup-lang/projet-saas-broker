@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# runtime persisted database (re-seeded on demand)
+/data/db.json
+/data/*.tmp
