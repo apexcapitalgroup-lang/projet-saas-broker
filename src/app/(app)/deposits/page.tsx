@@ -1,6 +1,7 @@
 import { I } from "@/components/Icon";
-import { Avatar, Card, CardHeader, Kpi, Pill, SectionHeader, StatusPill } from "@/components/ui";
-import { DEPOSITS, fmtDate, fmtMoney, fmtNumber } from "@/lib/mock";
+import { ActionButton } from "@/components/ActionButton";
+import { Avatar, Card, Kpi, SectionHeader, StatusPill } from "@/components/ui";
+import { DEPOSITS, fmtDate, fmtMoney } from "@/lib/mock";
 
 export default function DepositsPage() {
   const completed = DEPOSITS.filter((d) => d.status === "completed");
@@ -19,15 +20,25 @@ export default function DepositsPage() {
         }
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Export ledger
-            </button>
-            <button className="btn-secondary">
-              <I.Calendar size={14} />
-              May 2026
-              <I.ChevronDown size={12} className="text-[var(--color-ink-4)]" />
-            </button>
+            <ActionButton
+              label="Export ledger"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-deposits-2026-05.csv",
+                content:
+                  "id,fpg_txn_id,client_apex_id,amount,currency,method,status,created_at\ndp_01,FPG-DEP-A8412,APX-100482,25000,USD,Visa / Mastercard,completed,2026-05-25T07:12:00Z\n",
+              }}
+              toastTitle="Deposit ledger exported"
+              toastDescription="3,184 deposits exported · May 2026"
+            />
+            <ActionButton
+              label="May 2026"
+              icon="Calendar"
+              variant="secondary"
+              toastTitle="Period selector"
+              toastDescription="Use the dashboard date range to change scope."
+            />
           </div>
         }
       />

@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, CardHeader, Pill, SectionHeader } from "@/components/ui";
 
 const STATEMENTS = [
@@ -42,10 +43,17 @@ export default function DocumentsPage() {
               Signed PDFs issued by Fortune Prime Global
             </p>
           </div>
-          <button className="btn-secondary">
-            <I.Download size={14} />
-            Download all
-          </button>
+          <ActionButton
+            label="Download all"
+            icon="Download"
+            variant="secondary"
+            download={{
+              filename: "apex-statements-archive.zip",
+              content: "# Mock archive — bundle of monthly statements.\n",
+            }}
+            toastTitle="Statements archive ready"
+            toastDescription="5 signed PDFs bundled"
+          />
         </div>
         <table className="data-table">
           <thead>
@@ -69,10 +77,19 @@ export default function DocumentsPage() {
                   </Pill>
                 </td>
                 <td className="text-right">
-                  <button className="btn-ghost text-[var(--color-brand)]">
-                    <I.Download size={12} />
-                    Download
-                  </button>
+                  <ActionButton
+                    label="Download"
+                    icon="Download"
+                    variant="ghost"
+                    className="!text-[var(--color-brand)]"
+                    download={{
+                      filename: `apex-statement-${s.period.replace(" ", "-").toLowerCase()}.pdf`,
+                      content: `%PDF-1.4\n% APEX × FPG monthly statement — ${s.period}.\n`,
+                      mime: "application/pdf",
+                    }}
+                    toastTitle="Statement downloaded"
+                    toastDescription={`${s.period} · ${s.size}`}
+                  />
                 </td>
               </tr>
             ))}
@@ -100,9 +117,19 @@ export default function DocumentsPage() {
                     </div>
                   </div>
                 </div>
-                <button className="btn-ghost text-[var(--color-brand)]">
-                  <I.Download size={12} />
-                </button>
+                <ActionButton
+                  label=""
+                  icon="Download"
+                  variant="ghost"
+                  className="!text-[var(--color-brand)]"
+                  download={{
+                    filename: `${l.name.toLowerCase().replace(/\s+/g, "-")}-${l.version.replace(/[\s.]/g, "-")}.pdf`,
+                    content: `%PDF-1.4\n% ${l.name} ${l.version}\n`,
+                    mime: "application/pdf",
+                  }}
+                  toastTitle="Document downloaded"
+                  toastDescription={l.name}
+                />
               </li>
             ))}
           </ul>

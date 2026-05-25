@@ -1,6 +1,7 @@
 import { I } from "@/components/Icon";
-import { Avatar, Card, CardHeader, Kpi, Pill, SectionHeader, StatusPill } from "@/components/ui";
+import { Avatar, Card, CardHeader, Kpi, SectionHeader, StatusPill } from "@/components/ui";
 import { WITHDRAWALS, fmtDate, fmtMoney } from "@/lib/mock";
+import { WithdrawalsHeaderActions, WithdrawalRowAction } from "./WithdrawalActions";
 
 export default function WithdrawalsPage() {
   const pending = WITHDRAWALS.filter((w) =>
@@ -17,18 +18,7 @@ export default function WithdrawalsPage() {
             <span className="text-[var(--color-ink-2)] font-medium">FPG compliance</span>.
           </span>
         }
-        actions={
-          <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Export
-            </button>
-            <button className="btn-primary">
-              <I.Refresh size={14} />
-              Sync with FPG
-            </button>
-          </div>
-        }
+        actions={<WithdrawalsHeaderActions />}
       />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -104,14 +94,13 @@ export default function WithdrawalsPage() {
                   <div className="mono text-[10.5px] text-[var(--color-ink-4)]">{w.apexCorrelationId}</div>
                 </td>
                 <td className="text-right">
-                  {["requested", "under_review"].includes(w.status) ? (
-                    <button className="btn-ghost text-[var(--color-brand)]">
-                      Review
-                      <I.ChevronRight size={12} />
-                    </button>
-                  ) : (
-                    <button className="btn-ghost">View</button>
-                  )}
+                  <WithdrawalRowAction
+                    withdrawalId={w.id}
+                    status={w.status}
+                    clientName={w.clientName}
+                    amount={w.amount}
+                    currency={w.currency}
+                  />
                 </td>
               </tr>
             ))}

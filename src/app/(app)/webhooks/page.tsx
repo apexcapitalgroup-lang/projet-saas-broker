@@ -1,6 +1,7 @@
 import { I } from "@/components/Icon";
-import { BarChart, Card, CardHeader, Kpi, Pill, SectionHeader, StatusPill } from "@/components/ui";
+import { BarChart, Card, CardHeader, Kpi, SectionHeader, StatusPill } from "@/components/ui";
 import { WEBHOOKS, fmtDate, fmtNumber } from "@/lib/mock";
+import { WebhookHeaderActions, WebhookRowReplay } from "./WebhookActions";
 
 const EVENT_CATEGORIES = [
   ["KYC", ["kyc_submitted", "kyc_approved", "kyc_rejected", "kyc_resubmit_required", "document_missing", "compliance_hold"]],
@@ -19,22 +20,7 @@ export default function WebhooksPage() {
       <SectionHeader
         title="Webhooks & API"
         description="Signed events from FPG · pull fallback enabled · idempotency-key enforced"
-        actions={
-          <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Export log
-            </button>
-            <button className="btn-secondary">
-              <I.Sliders size={14} />
-              Endpoints
-            </button>
-            <button className="btn-primary">
-              <I.Refresh size={14} />
-              Force replay
-            </button>
-          </div>
-        }
+        actions={<WebhookHeaderActions />}
       />
 
       {/* KPI strip */}
@@ -168,10 +154,7 @@ export default function WebhooksPage() {
                   <StatusPill status={w.status} />
                 </td>
                 <td className="text-right">
-                  <button className="btn-ghost">
-                    <I.Refresh size={12} />
-                    Replay
-                  </button>
+                  <WebhookRowReplay eventId={w.eventId} />
                 </td>
               </tr>
             ))}

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ApexMark, PoweredByFPG } from "@/components/Brand";
+import { ApexLogo, ApexMark, PoweredByFPG } from "@/components/Brand";
 import { I } from "@/components/Icon";
 import { Field, SecureChip } from "@/components/ui";
 
@@ -110,14 +110,11 @@ export default function LoginPage() {
         <div className="relative flex flex-col flex-1 px-14 py-12">
           {/* top */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <ApexMark size={26} />
-              <div className="flex items-baseline gap-2 leading-none">
-                <span className="text-[17px] font-semibold tracking-[-0.01em]">APEX</span>
-                <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/55">
-                  Operations Console
-                </span>
-              </div>
+            <div className="flex items-center gap-3">
+              <ApexLogo height={28} variant="light" />
+              <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/55 border-l border-white/15 pl-3">
+                Operations Console
+              </span>
             </div>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-2.5 py-1 text-[10.5px] font-medium text-white/70">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />

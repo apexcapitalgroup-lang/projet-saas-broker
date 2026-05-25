@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, CardHeader, Field, Pill, SecureChip, SectionHeader } from "@/components/ui";
 
 export default function ProfilePage() {
@@ -44,7 +45,14 @@ export default function ProfilePage() {
             <CardHeader
               title="Personal information"
               description="Changes require re-verification by FPG"
-              actions={<button className="btn-primary">Save</button>}
+              actions={
+                <ActionButton
+                  label="Save"
+                  variant="primary"
+                  toastTitle="Profile updated"
+                  toastDescription="Your changes are awaiting FPG re-verification."
+                />
+              }
             />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Field label="First name">
@@ -118,7 +126,14 @@ export default function ProfilePage() {
                   Sign out everywhere if you suspect any compromise
                 </p>
               </div>
-              <button className="btn-secondary !text-[var(--color-danger)]">Sign out everywhere</button>
+              <ActionButton
+                label="Sign out everywhere"
+                variant="secondary"
+                className="!text-[var(--color-danger)]"
+                toastTitle="All sessions revoked"
+                toastDescription="You will be signed out from every device in the next 30s."
+                toastTone="warning"
+              />
             </div>
             <table className="data-table">
               <thead>
@@ -145,7 +160,14 @@ export default function ProfilePage() {
                     <td className="text-[var(--color-ink-3)]">{loc as string}</td>
                     <td className="text-[var(--color-ink-3)]">{last as string}</td>
                     <td className="text-right">
-                      <button className="btn-ghost text-[var(--color-danger)]">Revoke</button>
+                      <ActionButton
+                        label="Revoke"
+                        variant="ghost"
+                        className="!text-[var(--color-danger)]"
+                        toastTitle="Session revoked"
+                        toastDescription={`${d as string} signed out.`}
+                        toastTone="warning"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -169,10 +191,13 @@ export default function ProfilePage() {
                   Available Mon-Fri · 09:00–18:00 CET
                 </div>
               </div>
-              <button className="btn-primary">
-                <I.Mail size={14} />
-                Send a message
-              </button>
+              <ActionButton
+                label="Send a message"
+                icon="Mail"
+                variant="primary"
+                toastTitle="Message sent to Ariane"
+                toastDescription="Average reply time: 1 business hour."
+              />
             </div>
           </Card>
         </div>
@@ -214,7 +239,13 @@ function SecurityRow({
         </div>
         <div className="mt-0.5 text-[11.5px] text-[var(--color-ink-4)]">{description}</div>
       </div>
-      <button className="btn-secondary !h-8 !text-[12px]">{action}</button>
+      <ActionButton
+        label={action}
+        variant="secondary"
+        size="sm"
+        toastTitle={`${action} — ${title}`}
+        toastDescription={description}
+      />
     </li>
   );
 }

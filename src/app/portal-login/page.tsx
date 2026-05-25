@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ApexMark, PoweredByFPG } from "@/components/Brand";
+import { ApexLogo, ApexMark, PoweredByFPG } from "@/components/Brand";
 import { I } from "@/components/Icon";
 import { Field, SecureChip } from "@/components/ui";
 
@@ -67,10 +67,7 @@ export default function PortalLoginPage() {
         />
 
         <div className="relative flex flex-1 flex-col px-14 py-12">
-          <div className="flex items-center gap-2.5">
-            <ApexMark size={26} />
-            <span className="text-[17px] font-semibold tracking-[-0.01em]">APEX</span>
-          </div>
+          <ApexLogo height={28} variant="light" />
 
           <div className="my-auto max-w-[460px]">
             <p className="mb-4 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/55">

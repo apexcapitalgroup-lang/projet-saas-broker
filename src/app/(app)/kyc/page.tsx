@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { I } from "@/components/Icon";
-import { Avatar, Card, CardHeader, Kpi, Pill, SectionHeader, StatusPill } from "@/components/ui";
-import { CLIENTS, KYC_PIPELINE, fmtDate, fmtNumber } from "@/lib/mock";
+import { Avatar, Card, Pill, SectionHeader, StatusPill } from "@/components/ui";
+import { CLIENTS, KYC_PIPELINE, fmtDate } from "@/lib/mock";
+import { KycDecisionButtons, KycHeaderActions } from "./KycActions";
+import { KycRowReview, KycFilterButton, KycTabs } from "./KycTabs";
 
 export default function KycPage() {
   const queue = CLIENTS.filter((c) => c.kyc !== "approved");
@@ -11,22 +13,7 @@ export default function KycPage() {
       <SectionHeader
         title="KYC / KYB review queue"
         description="APEX collects documents; FPG decides. All status transitions are signed and timestamped."
-        actions={
-          <div className="flex items-center gap-2">
-            <button className="btn-ghost">
-              <I.Refresh size={14} />
-              Sync FPG
-            </button>
-            <button className="btn-secondary">
-              <I.Sliders size={14} />
-              SLA & rules
-            </button>
-            <button className="btn-primary">
-              <I.Plus size={14} />
-              Manual submission
-            </button>
-          </div>
-        }
+        actions={<KycHeaderActions />}
       />
 
       {/* Pipeline KPIs */}
@@ -44,16 +31,18 @@ export default function KycPage() {
         {/* Queue */}
         <Card padding="p-0">
           <div className="flex items-center justify-between border-b border-[var(--color-line-subtle)] px-4 py-3">
-            <div className="flex items-center gap-1">
-              <Tab label="Review queue" count={queue.length} active />
-              <Tab label="Resubmissions" count={3} />
-              <Tab label="Compliance hold" count={1} />
-              <Tab label="Approved (today)" count={11} />
-            </div>
+            <KycTabs
+              tabs={[
+                { key: "queue", label: "Review queue", count: queue.length },
+                { key: "resubmissions", label: "Resubmissions", count: 3 },
+                { key: "compliance_hold", label: "Compliance hold", count: 1 },
+                { key: "approved_today", label: "Approved (today)", count: 11 },
+              ]}
+            />
             <div className="flex items-center gap-2">
-              <FilterButton label="Tier" value="All" />
-              <FilterButton label="Country" value="All" />
-              <FilterButton label="Risk" value="All" />
+              <KycFilterButton label="Tier" options={["All", "Tier 1", "Tier 2", "Tier 3"]} />
+              <KycFilterButton label="Country" options={["All", "EU", "UK", "US", "APAC", "Other"]} />
+              <KycFilterButton label="Risk" options={["All", "Low", "Medium", "High"]} />
             </div>
           </div>
 
@@ -106,10 +95,7 @@ export default function KycPage() {
                     <SlaDot kyc={c.kyc} />
                   </td>
                   <td className="text-right">
-                    <button className="btn-ghost text-[var(--color-brand)]">
-                      Review
-                      <I.ChevronRight size={12} />
-                    </button>
+                    <KycRowReview apexId={c.apexId} clientName={c.name} />
                   </td>
                 </tr>
               ))}
@@ -179,20 +165,8 @@ export default function KycPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col gap-2 border-t border-[var(--color-line-subtle)] pt-3">
-              <button className="btn-primary w-full">
-                <I.Check size={14} />
-                Approve
-              </button>
-              <button className="btn-secondary w-full">
-                <I.Refresh size={14} />
-                Request resubmission
-              </button>
-              <button className="btn-secondary w-full text-[var(--color-danger)] hover:!bg-[var(--color-danger-soft)]">
-                <I.X size={14} />
-                Reject
-              </button>
-            </div>
+            <KycDecisionButtons apexId="APX-100501" clientName="Damien Larue" />
+            {/* Close button on the side card */}
 
             <div className="rounded-md border border-[var(--color-line)] bg-[var(--color-brand-tint)] p-3">
               <div className="mb-1 text-[10.5px] font-semibold uppercase tracking-wider text-[var(--color-brand)]">
