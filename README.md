@@ -1,6 +1,12 @@
 # APEX powered by FPG
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fapexcapitalgroup-lang%2Fprojet-saas-broker&project-name=apex-powered-by-fpg&repository-name=apex-powered-by-fpg&env=APEX_SESSION_SECRET,FPG_HMAC_SECRET,FPG_WEBHOOK_SECRET,FPG_CLIENT_ID,FPG_CLIENT_SECRET,PERSIST&envDescription=Secrets%20required%20by%20the%20APEX%20%C3%97%20FPG%20demo)
+
 **Production-grade reference implementation of the APEX × Fortune Prime Global integration.**
+
+**Live demo:** https://apex-powered-by-fpg.vercel.app *(deployed via the button above)*
+
+**Public repo:** https://github.com/apexcapitalgroup-lang/projet-saas-broker
 
 This repository contains:
 
