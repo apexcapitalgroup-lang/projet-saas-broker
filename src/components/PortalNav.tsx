@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { I } from "./Icon";
 import { ApexMark } from "./Brand";
 import { Avatar } from "./ui";
+import { useToast } from "./Toast";
 
 const NAV: { href: string; label: string; icon: keyof typeof I }[] = [
   { href: "/portal", label: "Overview", icon: "Dashboard" },
@@ -67,18 +68,40 @@ export function PortalNav() {
       </nav>
 
       <div className="border-t border-[var(--color-line)] p-3">
-        <Link
-          href="/portal/profile"
-          className="flex items-center gap-2.5 rounded-md p-2 hover:bg-[var(--color-bg-muted)]"
-        >
-          <Avatar name="Sebastian Lindqvist" size={32} />
-          <div className="flex flex-1 flex-col leading-tight min-w-0">
-            <span className="truncate text-[12.5px] font-semibold">Sebastian Lindqvist</span>
-            <span className="truncate text-[10.5px] text-[var(--color-ink-4)]">APX-100482 · Live</span>
-          </div>
-          <I.Logout size={14} className="text-[var(--color-ink-4)]" />
-        </Link>
+        <PortalUserCard />
       </div>
     </aside>
+  );
+}
+
+function PortalUserCard() {
+  const router = useRouter();
+  const { push } = useToast();
+  async function logout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      push({ title: "Signed out", tone: "success" });
+      setTimeout(() => router.push("/portal-login"), 400);
+    } catch {
+      push({ title: "Sign out failed", tone: "danger" });
+    }
+  }
+  return (
+    <div className="flex items-center gap-2.5 rounded-md p-2">
+      <Link href="/portal/profile" className="flex items-center gap-2.5 flex-1 min-w-0 hover:opacity-90">
+        <Avatar name="Sebastian Lindqvist" size={32} />
+        <div className="flex flex-1 flex-col leading-tight min-w-0">
+          <span className="truncate text-[12.5px] font-semibold">Sebastian Lindqvist</span>
+          <span className="truncate text-[10.5px] text-[var(--color-ink-4)]">APX-100482 · Live</span>
+        </div>
+      </Link>
+      <button
+        onClick={logout}
+        className="flex h-7 w-7 items-center justify-center rounded text-[var(--color-ink-4)] hover:bg-[var(--color-bg-muted)] hover:text-[var(--color-ink)]"
+        title="Sign out"
+      >
+        <I.Logout size={14} />
+      </button>
+    </div>
   );
 }

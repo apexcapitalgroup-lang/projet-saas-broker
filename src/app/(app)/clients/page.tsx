@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Avatar, Card, Kpi, SectionHeader, StatusPill } from "@/components/ui";
 import { CLIENTS, fmtDate, fmtMoney, fmtNumber } from "@/lib/mock";
 
@@ -21,14 +22,27 @@ export default function ClientsPage() {
         }
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Export CSV
-            </button>
-            <button className="btn-primary">
-              <I.Plus size={14} />
-              Invite client
-            </button>
+            <ActionButton
+              label="Export CSV"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-clients-2026-05.csv",
+                content:
+                  "apex_id,fpg_id,name,email,country,type,status,kyc\nAPX-100482,FPG-7740921,Sebastian Lindqvist,s.lindqvist@northforest.io,Sweden,Retail,approved,approved\n",
+              }}
+              toastTitle="Client export ready"
+              toastDescription="382 clients exported to CSV"
+            />
+            <ActionButton
+              label="Invite client"
+              icon="Plus"
+              variant="primary"
+              href="/portal-signup"
+              newTab
+              toastTitle="Signup link opened"
+              toastDescription="Share /portal-signup with the prospect"
+            />
           </div>
         }
       />

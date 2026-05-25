@@ -1,4 +1,6 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
+import { SecretField } from "@/components/SecretField";
 import { Avatar, Card, CardHeader, Field, Pill, SectionHeader, StatusPill } from "@/components/ui";
 import { TEAM, fmtDate } from "@/lib/mock";
 
@@ -47,7 +49,14 @@ export default function SettingsPage() {
             <CardHeader
               title="Workspace"
               description="High-level identity and contact information shared with FPG"
-              actions={<button className="btn-primary">Save changes</button>}
+              actions={
+                <ActionButton
+                  label="Save changes"
+                  variant="primary"
+                  toastTitle="Workspace updated"
+                  toastDescription="New values pushed to FPG via /api/admin/settings."
+                />
+              }
             />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Field label="Workspace name">
@@ -81,14 +90,20 @@ export default function SettingsPage() {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <button className="btn-secondary">
-                  <I.Sliders size={14} />
-                  Role matrix
-                </button>
-                <button className="btn-primary">
-                  <I.Plus size={14} />
-                  Invite member
-                </button>
+                <ActionButton
+                  label="Role matrix"
+                  icon="Sliders"
+                  variant="secondary"
+                  toastTitle="Role matrix"
+                  toastDescription="6 roles · 36 permissions · documented in /docs/security-EN.md."
+                />
+                <ActionButton
+                  label="Invite member"
+                  icon="Plus"
+                  variant="primary"
+                  toastTitle="Invitation flow"
+                  toastDescription="SCIM provisioning via your IdP — link in clipboard."
+                />
               </div>
             </div>
             <table className="data-table">
@@ -137,9 +152,13 @@ export default function SettingsPage() {
                       {m.lastSeen === "—" ? "—" : fmtDate(m.lastSeen, { rel: true })}
                     </td>
                     <td className="text-right">
-                      <button className="btn-ghost">
-                        <I.MoreHorizontal size={14} />
-                      </button>
+                      <ActionButton
+                        label=""
+                        icon="MoreHorizontal"
+                        variant="ghost"
+                        toastTitle={`Actions for ${m.name}`}
+                        toastDescription="Edit role, reset password, or suspend access."
+                      />
                     </td>
                   </tr>
                 ))}
@@ -181,15 +200,7 @@ export default function SettingsPage() {
                 />
               </Field>
               <Field label="Webhook signing secret" hint="Rotated automatically every 90 days">
-                <div className="flex items-center gap-2">
-                  <input className="input mono flex-1" type="password" defaultValue="whsec_xxxxxxxxxxxxxx" />
-                  <button className="btn-secondary">
-                    <I.Eye size={14} />
-                  </button>
-                  <button className="btn-secondary">
-                    <I.Copy size={14} />
-                  </button>
-                </div>
+                <SecretField defaultValue="whsec_E9b3a2c7d4f1g8h6j5k0" />
               </Field>
               <Field label="Webhook retry policy">
                 <input

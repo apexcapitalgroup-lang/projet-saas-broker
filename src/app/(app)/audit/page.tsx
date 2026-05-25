@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Avatar, Card, CardHeader, Kpi, Pill, SectionHeader } from "@/components/ui";
 import { AUDIT_LOG, fmtDate } from "@/lib/mock";
 
@@ -10,15 +11,25 @@ export default function AuditPage() {
         description="Immutable, append-only event log of every action — human, service account or FPG webhook."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Export (signed)
-            </button>
-            <button className="btn-secondary">
-              <I.Calendar size={14} />
-              Last 24h
-              <I.ChevronDown size={12} className="text-[var(--color-ink-4)]" />
-            </button>
+            <ActionButton
+              label="Export (signed)"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-audit-2026-05.csv",
+                content:
+                  "at,actor,role,action,target,ip,result\n2026-05-25T08:55:14Z,Camille Roux,Compliance,Approved withdrawal,wd_06,82.66.41.18,success\n",
+              }}
+              toastTitle="Signed audit export ready"
+              toastDescription="Includes hash chain for the period · 2,412 entries"
+            />
+            <ActionButton
+              label="Last 24h"
+              icon="Calendar"
+              variant="secondary"
+              toastTitle="Time range"
+              toastDescription="Audit log filtered to the last 24 hours."
+            />
           </div>
         }
       />

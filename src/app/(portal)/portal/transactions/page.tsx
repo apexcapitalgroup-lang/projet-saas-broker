@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, Kpi, SectionHeader, StatusPill } from "@/components/ui";
 import { DEPOSITS, WITHDRAWALS, fmtDate, fmtMoney } from "@/lib/mock";
 
@@ -38,10 +39,18 @@ export default function TransactionsPage() {
         title="Transactions"
         description="Every credit and debit on your accounts · sourced from FPG ledger."
         actions={
-          <button className="btn-secondary">
-            <I.Download size={14} />
-            Statement (PDF)
-          </button>
+          <ActionButton
+            label="Statement (PDF)"
+            icon="Download"
+            variant="secondary"
+            download={{
+              filename: "apex-transactions-statement.pdf",
+              content: "%PDF-1.4\n% APEX × FPG transaction statement.\n",
+              mime: "application/pdf",
+            }}
+            toastTitle="Statement generated"
+            toastDescription="Signed PDF · all transactions for the period"
+          />
         }
       />
 
@@ -68,11 +77,14 @@ export default function TransactionsPage() {
                 className="w-[200px] bg-transparent outline-none placeholder:text-[var(--color-ink-4)]"
               />
             </div>
-            <button className="btn-secondary !h-8">
-              <I.Calendar size={12} />
-              Last 90 days
-              <I.ChevronDown size={10} className="text-[var(--color-ink-4)]" />
-            </button>
+            <ActionButton
+              label="Last 90 days"
+              icon="Calendar"
+              variant="secondary"
+              size="sm"
+              toastTitle="Time range"
+              toastDescription="Transactions filtered to the last 90 days."
+            />
           </div>
         </div>
         <table className="data-table">

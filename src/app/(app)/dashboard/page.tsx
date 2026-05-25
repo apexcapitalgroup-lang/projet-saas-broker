@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { I } from "@/components/Icon";
+import { DashboardHeaderActions } from "./DashboardActions";
 import {
   Avatar,
   AreaChart,
@@ -42,23 +43,7 @@ export default function DashboardPage() {
             <span className="text-[var(--color-ink-2)]">Sunday, 25 May 2026 · 09:00 UTC</span>
           </span>
         }
-        actions={
-          <div className="flex items-center gap-2">
-            <button className="btn-ghost">
-              <I.Refresh size={14} />
-              Refresh
-            </button>
-            <button className="btn-secondary">
-              <I.Calendar size={14} />
-              Last 30 days
-              <I.ChevronDown size={12} className="text-[var(--color-ink-4)]" />
-            </button>
-            <button className="btn-primary">
-              <I.Download size={14} />
-              Export
-            </button>
-          </div>
-        }
+        actions={<DashboardHeaderActions />}
       />
 
       {/* KPI row */}

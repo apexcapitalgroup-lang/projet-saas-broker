@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { I } from "@/components/Icon";
-import { AreaChart, Card, CardHeader, Pill, StatusPill } from "@/components/ui";
-import { TRADING_ACCOUNTS, fmtDate, fmtMoney } from "@/lib/mock";
+import { ActionButton } from "@/components/ActionButton";
+import { Card, CardHeader, Pill, StatusPill } from "@/components/ui";
+import { TRADING_ACCOUNTS, fmtMoney } from "@/lib/mock";
+import { EquityChartRange } from "./EquityChartRange";
 
 export default async function AccountDetailPage({
   params,
@@ -69,21 +71,10 @@ export default async function AccountDetailPage({
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         <Card className="lg:col-span-2" padding="p-5">
           <CardHeader
-            title="Equity curve · last 30 days"
+            title="Equity curve"
             description="Mirror of FPG ledger · refresh every 60 seconds"
-            actions={
-              <div className="flex items-center gap-1">
-                <button className="btn-ghost text-[var(--color-brand)]">30d</button>
-                <button className="btn-ghost">3m</button>
-                <button className="btn-ghost">1y</button>
-                <button className="btn-ghost">All</button>
-              </div>
-            }
           />
-          <AreaChart
-            data={[82, 84, 81, 86, 88, 87, 92, 94, 91, 95, 96, 98, 97, 99, 100, 99, 101, 102, 100, 103, 104, 105, 104, 106, 107, 105, 108, 110, 112]}
-            height={220}
-          />
+          <EquityChartRange />
         </Card>
 
         <Card padding="p-5">
@@ -138,10 +129,19 @@ export default async function AccountDetailPage({
               Last 7 days · all closed positions on this account
             </p>
           </div>
-          <Link href="#" className="btn-ghost text-[var(--color-brand)]">
-            <I.Download size={12} />
-            Export CSV
-          </Link>
+          <ActionButton
+            label="Export CSV"
+            icon="Download"
+            variant="ghost"
+            className="!text-[var(--color-brand)]"
+            download={{
+              filename: `${a.login}-trades.csv`,
+              content:
+                "ticket,symbol,side,lots,open_time,close_time,open_price,close_price,commission,swap,pnl\n#812441,EURUSD,Buy,2.0,2026-05-24T09:12,2026-05-24T11:42,1.0822,1.0851,-10,-1.2,580\n",
+            }}
+            toastTitle="Trade history exported"
+            toastDescription={`${a.login} · last 7 days`}
+          />
         </div>
         <table className="data-table">
           <thead>

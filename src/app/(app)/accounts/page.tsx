@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Avatar, Card, CardHeader, Kpi, Pill, SectionHeader, StatusPill } from "@/components/ui";
 import { TRADING_ACCOUNTS, fmtDate, fmtMoney, fmtNumber } from "@/lib/mock";
 
@@ -15,14 +16,23 @@ export default function AccountsPage() {
         description="MT4 / MT5 accounts hosted by FPG. APEX never touches client funds — balances are read-only mirrors."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Refresh size={14} />
-              Refresh balances
-            </button>
-            <button className="btn-primary">
-              <I.Plus size={14} />
-              Open account
-            </button>
+            <ActionButton
+              label="Refresh balances"
+              icon="Refresh"
+              variant="secondary"
+              refresh
+              toastTitle="Balances refreshed"
+              toastDescription="Pulled live mirror from FPG · 946 accounts updated"
+            />
+            <ActionButton
+              label="Open account"
+              icon="Plus"
+              variant="primary"
+              href="/portal-signup"
+              newTab
+              toastTitle="Account onboarding"
+              toastDescription="Use the portal signup flow to open a live account."
+            />
           </div>
         }
       />

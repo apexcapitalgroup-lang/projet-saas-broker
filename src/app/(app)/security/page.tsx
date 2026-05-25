@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, CardHeader, Kpi, Pill, SecureChip, SectionHeader, StatusPill } from "@/components/ui";
 import { API_KEYS, fmtDate } from "@/lib/mock";
 
@@ -10,14 +11,27 @@ export default function SecurityPage() {
         description="API keys, network controls, encryption, MFA, rotation policies and certifications."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Document size={14} />
-              Security policy
-            </button>
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              SOC 2 pack
-            </button>
+            <ActionButton
+              label="Security policy"
+              icon="Document"
+              variant="secondary"
+              href="https://github.com/apexcapitalgroup-lang/projet-saas-broker/blob/master/docs/security-EN.md"
+              newTab
+              toastTitle="Security policy opened"
+            />
+            <ActionButton
+              label="SOC 2 pack"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-soc2-readiness.pdf",
+                content:
+                  "%PDF-1.4\n% APEX SOC 2 Type II readiness — engagement scheduled Q4 2026.\n",
+                mime: "application/pdf",
+              }}
+              toastTitle="SOC 2 pack downloaded"
+              toastDescription="Readiness pack — gap analysis + controls"
+            />
           </div>
         }
       />
@@ -85,14 +99,20 @@ export default function SecurityPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Refresh size={14} />
-              Rotate
-            </button>
-            <button className="btn-primary">
-              <I.Plus size={14} />
-              New key
-            </button>
+            <ActionButton
+              label="Rotate"
+              icon="Refresh"
+              variant="secondary"
+              toastTitle="API keys rotated"
+              toastDescription="2 keys rotated · old keys remain valid for 7 days"
+            />
+            <ActionButton
+              label="New key"
+              icon="Plus"
+              variant="primary"
+              toastTitle="New API key issued"
+              toastDescription="Copy the secret now — it won't be shown again."
+            />
           </div>
         </div>
         <table className="data-table">
@@ -205,7 +225,14 @@ export default function SecurityPage() {
               45-minute sliding TTL · sessions automatically invalidated on IP change
             </p>
           </div>
-          <button className="btn-secondary text-[var(--color-danger)]">Revoke all</button>
+          <ActionButton
+            label="Revoke all"
+            variant="secondary"
+            className="!text-[var(--color-danger)]"
+            toastTitle="All sessions revoked"
+            toastDescription="11 sessions invalidated · everyone will be signed out."
+            toastTone="warning"
+          />
         </div>
         <table className="data-table">
           <thead>
@@ -247,7 +274,14 @@ export default function SecurityPage() {
                   )}
                 </td>
                 <td className="text-right">
-                  <button className="btn-ghost text-[var(--color-danger)]">Revoke</button>
+                  <ActionButton
+                    label="Revoke"
+                    variant="ghost"
+                    className="!text-[var(--color-danger)]"
+                    toastTitle={`Session revoked`}
+                    toastDescription={`${name as string} signed out from ${device as string}.`}
+                    toastTone="warning"
+                  />
                 </td>
               </tr>
             ))}

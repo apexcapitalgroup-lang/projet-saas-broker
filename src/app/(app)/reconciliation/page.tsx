@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, CardHeader, Kpi, Pill, SectionHeader } from "@/components/ui";
 import { RECONCILIATION, fmtDate, fmtMoney, fmtNumber } from "@/lib/mock";
 
@@ -12,18 +13,38 @@ export default function ReconciliationPage() {
         description="Compare APEX records against FPG canonical data. Any non-zero delta triggers an alert."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Refresh size={14} />
-              Re-run reconciliation
-            </button>
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              CSV
-            </button>
-            <button className="btn-primary">
-              <I.Document size={14} />
-              Monthly statement
-            </button>
+            <ActionButton
+              label="Re-run reconciliation"
+              icon="Refresh"
+              variant="secondary"
+              refresh
+              toastTitle="Reconciliation re-run"
+              toastDescription="Comparing 7 days of FPG and APEX ledgers… 0 new deltas detected."
+            />
+            <ActionButton
+              label="CSV"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-reconciliation-2026-05.csv",
+                content:
+                  "date,fpg_deposits,apex_deposits,fpg_withdrawals,apex_withdrawals,delta,status\n2026-05-24,1842400,1842400,612800,612800,0,reconciled\n",
+              }}
+              toastTitle="Reconciliation CSV exported"
+            />
+            <ActionButton
+              label="Monthly statement"
+              icon="Document"
+              variant="primary"
+              download={{
+                filename: "apex-statement-2026-04.pdf",
+                content:
+                  "%PDF-1.4\n% Mock IB statement — see /api/fpg/v1/ib/APEX/statements for the real format.\n",
+                mime: "application/pdf",
+              }}
+              toastTitle="Monthly statement generated"
+              toastDescription="April 2026 · $142,990 net payable"
+            />
           </div>
         }
       />

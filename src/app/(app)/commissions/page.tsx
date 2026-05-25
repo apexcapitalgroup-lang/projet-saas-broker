@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { Card, CardHeader, Kpi, SectionHeader, StatusPill } from "@/components/ui";
 import { fmtMoney, fmtNumber } from "@/lib/mock";
 
@@ -25,14 +26,30 @@ export default function CommissionsPage() {
         description="Statements and adjustments. The applied formula is shared with FPG and locked at month-end."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              Download all statements
-            </button>
-            <button className="btn-primary">
-              <I.Document size={14} />
-              Reconciliation pack
-            </button>
+            <ActionButton
+              label="Download all statements"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-statements-archive.zip",
+                content:
+                  "# Mock archive — production would deliver signed PDFs per period.\n",
+              }}
+              toastTitle="Statements archive ready"
+              toastDescription="5 signed statements bundled"
+            />
+            <ActionButton
+              label="Reconciliation pack"
+              icon="Document"
+              variant="primary"
+              download={{
+                filename: "apex-reconciliation-pack-2026-05.pdf",
+                content: "%PDF-1.4\n% Reconciliation pack May 2026.\n",
+                mime: "application/pdf",
+              }}
+              toastTitle="Reconciliation pack generated"
+              toastDescription="Includes adjustments + per-day delta investigation."
+            />
           </div>
         }
       />

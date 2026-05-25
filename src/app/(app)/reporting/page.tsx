@@ -1,4 +1,5 @@
 import { I } from "@/components/Icon";
+import { ActionButton } from "@/components/ActionButton";
 import { AreaChart, BarChart, Card, CardHeader, Kpi, SectionHeader, Sparkline } from "@/components/ui";
 import { CLIENTS, NET_DEPOSIT_12M, VOLUME_SERIES_12M, fmtMoney, fmtNumber } from "@/lib/mock";
 
@@ -15,19 +16,37 @@ export default function ReportingPage() {
         description="Volume, net deposit, profit share and revenue share — sourced directly from FPG."
         actions={
           <div className="flex items-center gap-2">
-            <button className="btn-secondary">
-              <I.Calendar size={14} />
-              Last 30 days
-              <I.ChevronDown size={12} className="text-[var(--color-ink-4)]" />
-            </button>
-            <button className="btn-secondary">
-              <I.Download size={14} />
-              CSV
-            </button>
-            <button className="btn-primary">
-              <I.Document size={14} />
-              Monthly statement
-            </button>
+            <ActionButton
+              label="Last 30 days"
+              icon="Calendar"
+              variant="secondary"
+              toastTitle="Time range"
+              toastDescription="Charts re-rendered for the last 30 days."
+            />
+            <ActionButton
+              label="CSV"
+              icon="Download"
+              variant="secondary"
+              download={{
+                filename: "apex-reporting-volume-2026-05.csv",
+                content:
+                  "date,symbol,lots,notional_usd,trades\n2026-05-25,EURUSD,42180,1205400000,8412\n",
+              }}
+              toastTitle="Reporting CSV exported"
+            />
+            <ActionButton
+              label="Monthly statement"
+              icon="Document"
+              variant="primary"
+              download={{
+                filename: "apex-monthly-statement-2026-05.pdf",
+                content:
+                  "%PDF-1.4\n% Provisional IB statement May 2026 — net payable $171,062.\n",
+                mime: "application/pdf",
+              }}
+              toastTitle="Statement generated"
+              toastDescription="May 2026 · provisional · $171,062"
+            />
           </div>
         }
       />
